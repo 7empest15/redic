@@ -6,23 +6,23 @@
 
 #include "hash.h"
 
-typedef struct t_entry
+typedef struct Entry
 {
     char *key;
     char *value;
-    struct t_entry *next;
-} t_entry;
+    struct Entry *next;
+} Entry;
 
-typedef struct t_cache
+typedef struct Cache
 {
-    t_entry **buckets;
+    Entry **buckets;
     size_t size;
     size_t count;
-} t_cache;
+} Cache;
 
-t_cache *cache_create(size_t size);
-int cache_set(t_cache *cache, const char *key, const char *value);
-char *cache_get(t_cache *cache, const char *key);
-void cache_free(t_cache *cache);
+Cache *cache_create(size_t size);
+int cache_set(Cache *cache, const char *key, const char *value);
+char *cache_get(Cache *cache, const char *key);
+void cache_free(Cache *cache);
 
 #endif // CACHE_H

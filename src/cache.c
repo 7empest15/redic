@@ -1,13 +1,13 @@
 #include "cache.h"
 #include <stdlib.h>
 
-t_cache *cache_create(size_t size)
+Cache *cache_create(size_t size)
 {
-    t_cache *cache = malloc(sizeof(t_cache));
+    Cache *cache = malloc(sizeof(Cache));
     if (!cache) {
         return NULL;
     }
-    cache->buckets = calloc(size, sizeof(t_entry *));
+    cache->buckets = calloc(size, sizeof(Entry *));
     if (!cache->buckets) {
         free(cache);
         return NULL;
@@ -17,10 +17,10 @@ t_cache *cache_create(size_t size)
     return cache;
 }
 
-int cache_set(t_cache *cache, const char *key, const char *value)
+int cache_set(Cache *cache, const char *key, const char *value)
 {
     unsigned long index = hash(key) % cache->size;
-    t_entry *entry = cache->buckets[index];
+    Entry *entry = cache->buckets[index];
     while (entry) {
         if (strcmp(entry->key, key) == 0) {
             free(entry->value);
@@ -30,7 +30,7 @@ int cache_set(t_cache *cache, const char *key, const char *value)
         entry = entry->next;
     }
 
-    t_entry *new_entry = malloc(sizeof(t_entry));
+    Entry *new_entry = malloc(sizeof(Entry));
     if (!new_entry) {
         return -1;
     }
@@ -43,10 +43,10 @@ int cache_set(t_cache *cache, const char *key, const char *value)
     return 0;
 }
 
-char *cache_get(t_cache *cache, const char *key)
+char *cache_get(Cache *cache, const char *key)
 {
     unsigned long index = hash(key) % cache->size;
-    t_entry *entry = cache->buckets[index];
+    Entry *entry = cache->buckets[index];
     while (entry) {
         if (strcmp(entry->key, key) == 0) {
             return entry->value;
@@ -56,12 +56,12 @@ char *cache_get(t_cache *cache, const char *key)
     return NULL;
 }
 
-void cache_free(t_cache *cache)
+void cache_free(Cache *cache)
 {
     for (size_t i = 0; i < cache->size; i++) {
-        t_entry *entry = cache->buckets[i];
+        Entry *entry = cache->buckets[i];
         while (entry) {
-            t_entry *next = entry->next;
+            Entry *next = entry->next;
             free(entry->key);
             free(entry->value);
             free(entry);

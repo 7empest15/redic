@@ -7,8 +7,15 @@
 #define BUFFER_SIZE 1024
 #define MAX_CLIENTS 100
 
-void network_start_server(t_cache *cache);
+typedef struct ClientCtx
+{
+    int fd;
+    int is_auth;
+    char buffer[BUFFER_SIZE];
+} ClientCtx;
 
-void network_handle_client(int client_socket, t_cache *cache);
+void network_start_server(Cache *cache);
+
+int network_handle_client(int client_socket, Cache *cache);
 
 #endif

@@ -5,7 +5,7 @@
 
 int main(void)
 {
-	t_cache *cache = cache_create(10);
+	Cache *cache = cache_create(10);
 	if (!cache)
 	{
 		fprintf(stderr, "Failed to create cache\n");

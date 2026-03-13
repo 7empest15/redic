@@ -1,6 +1,7 @@
 # Variables
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
+LDFLAGS = -lssl -lcrypto
 INCLUDES = ./includes
 SOURCES := $(wildcard src/*.c)
 OBJECTS := $(SOURCES:src/%.c=obj/%.o)
@@ -9,7 +10,7 @@ NAME = redic
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 obj/%.o: src/%.c
 	@mkdir -p obj
